@@ -29,12 +29,18 @@ export default function PerfisProfissionais() {
   }
 
   const listaFiltrada = candidatos.filter((pessoa) => {
-    const termo = filtro.toLowerCase();
-    return (
-      pessoa.area.toLowerCase().includes(termo) ||
-      pessoa.localizacao.toLowerCase().includes(termo) ||
-      pessoa.habilidadesTecnicas.join(" ").toLowerCase().includes(termo)
-    );
+    const localizacao = (pessoa.localizacao || "")
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+
+    const termoBusca = (filtro || "")
+      .toLowerCase()
+      .trim()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+
+    return localizacao.includes(termoBusca);
   });
 
   return (
@@ -46,9 +52,9 @@ export default function PerfisProfissionais() {
       <div className="w-full max-w-2xl mb-14">
         <input
           type="text"
-          placeholder="Buscar por área, cidade ou tecnologia..."
+          placeholder="Buscar por cidade..."
           value={filtro}
-          onChange={(e) => setFiltro(e.target.value.toLowerCase())}
+          onChange={(e) => setFiltro(e.target.value)}
           className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 
           bg-white dark:bg-[#1A1A1A] text-gray-800 dark:text-gray-200 shadow-sm 
           outline-none focus:ring-2 focus:ring-gray-400 dark:focus:ring-gray-600"
@@ -73,6 +79,10 @@ export default function PerfisProfissionais() {
             </h2>
 
             <p className="text-gray-600 dark:text-gray-300">{pessoa.cargo}</p>
+
+            <p className="text-gray-600 dark:text-gray-300">
+              {pessoa.localizacao}
+            </p>
           </div>
         ))}
       </div>
