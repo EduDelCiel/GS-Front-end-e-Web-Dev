@@ -79,4 +79,10 @@ Acesse `http://localhost:5173` no navegador.
 - Para buscar por área ou tecnologia, altere a lógica em `PerfisProfissionais.jsx`
 - Recomendações e envio de mensagem são simulados (alert)
 
+## Links
+
+Link Vercel
+
+https://gs-front-web-dev-theta.vercel.app/
+
 ---
